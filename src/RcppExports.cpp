@@ -6,28 +6,14 @@
 using namespace Rcpp;
 
 // S4_SCATTNLAY
-NumericVector S4_SCATTNLAY(S4 fullstack);
+NumericVector S4_SCATTNLAY(Rcpp::S4 fullstack);
 RcppExport SEXP Rscattnlay_S4_SCATTNLAY(SEXP fullstackSEXP) {
 BEGIN_RCPP
     SEXP __sexp_result;
     {
         Rcpp::RNGScope __rngScope;
-        Rcpp::traits::input_parameter< S4 >::type fullstack(fullstackSEXP );
+        Rcpp::traits::input_parameter< Rcpp::S4 >::type fullstack(fullstackSEXP );
         NumericVector __result = S4_SCATTNLAY(fullstack);
-        PROTECT(__sexp_result = Rcpp::wrap(__result));
-    }
-    UNPROTECT(1);
-    return __sexp_result;
-END_RCPP
-}
-// scattnlay_test
-NumericVector scattnlay_test();
-RcppExport SEXP Rscattnlay_scattnlay_test() {
-BEGIN_RCPP
-    SEXP __sexp_result;
-    {
-        Rcpp::RNGScope __rngScope;
-        NumericVector __result = scattnlay_test();
         PROTECT(__sexp_result = Rcpp::wrap(__result));
     }
     UNPROTECT(1);

@@ -1,4 +1,3 @@
-
 /*
 Taken from the scattnlay program by Pena and Pal
 For original paper see
@@ -9,47 +8,27 @@ No licence could be found in the original program code
 
 #include <Rcpp.h>
 #include <iostream>
+#include <complex>
 
 extern "C" {
   #include "ucomplex.h"     //uses a custom complex number handelling code - a <complex> rewrite might be nice
   #include "nmie.h"         // c code for individual scattering calculations 
 }
 
+using namespace Rcpp;
+
 #define MAXLAYERS 1100
 #define MAXTHETA 800
 
-using namespace Rcpp;
-
 // [[Rcpp::export]]
-NumericVector S4_SCATTNLAY(S4 fullstack){
-  // convert the stack to component parts
-  // call scatnlay with these values
-  // return the set of values to the S4 class
+NumericVector S4_SCATTNLAY(Rcpp::S4 fullstack){
   int layer_count;
-  double lambda, na;
+  double lambda, na, mr, mi, d;
+  Rcomplex mz;
+  
   Rcpp::List layers;
   
-  double layer_d;
-  
-  lambda = fullstack.slot("lambda");
-  na = fullstack.slot("na");
-  layers = fullstack.slot("layers");
-  layer_count = layers.size();
-  
-  for(int i=0;i<layer_count;i++){
-    S4 S4layer((SEXP)layers[i]);// get the layer S4 object from the list
-    layer_d = S4layer.slot("d");//get the data from the slots
-    //m[i+1].r = 
-    
-  }
-  
-}
-
-// [[Rcpp::export]]
-NumericVector scattnlay_test(){
-  
   int nmax = 0; // return value from nmie
-  int L = 2; // number of layers
   int nTheta;
   
   double x[MAXLAYERS],Theta[MAXLAYERS];
@@ -59,6 +38,7 @@ NumericVector scattnlay_test(){
   int nt = 0;  // what is nt - if you want to spec the theta angles
   complex S1[MAXLAYERS], S2[MAXLAYERS];
   
+  // Not implemented in S4 yet
   // fill in the values for theta
   if(nt>1)
   {
@@ -66,28 +46,34 @@ NumericVector scattnlay_test(){
     Theta[i] = (ti + (double)i*(tf - ti)/(nt - 1))*PI/180.0;
    }
   }
+    
+  lambda = fullstack.slot("lambda");
+  na = fullstack.slot("na");
+  layers = fullstack.slot("layers");
+  layer_count = layers.size();
   
-  // some test data from one of the examples
-  // for some reason, the arrays in nmie start at 1 not 0. 
+  for(int i=0;i<layer_count;i++){
+    S4 S4layer((SEXP)layers[i]);  // get the layer S4 object from the list
+    mz = S4layer.slot("m");
+    mr = mz.r;
+    mi = mz.i;
+    
+   // some test data from one of the examples
+   // for some reason, the arrays in nmie start at 1 not 0. 
   
-  x[1]= 0.099668871748;
-  m[1].r = 1.33;
-  m[1].i = 0.00;
+    m[i+1].r = mr/na;             //scaled values of m
+    m[i+1].i = mi/na;
+     
+    d = S4layer.slot("d");
+    
+    x[i+1] = 2*PI*na*d/lambda;    //scaled value of x
+  }
   
-  x[2]= 0.1;
-  m[2].r = 1.59;
-  m[2].i = 0.66;
-  
-  nmax = nMie(L, x, m, nt, Theta, &Qext, &Qsca, &Qabs, &Qbk, &Qpr, &g, &Albedo, S1, S2);
-  
-  // test data should return this:
-  //0.1, +1.39348e-03, +1.12219e-05, +1.38226e-03, +1.67581e-05, +1.39346e-03, +1.64365e-03, +8.05315e-03
-
-
+  // call the c code here
+  nmax = nMie(layer_count, x, m, nt, Theta, &Qext, &Qsca, &Qabs, &Qbk, &Qpr, &g, &Albedo, S1, S2);
   NumericVector z = NumericVector::create(Qext, Qsca, Qabs, Qbk, Qpr, g, Albedo, nmax);
-  return z ;
+  return z; 
 }
-
 
   //std::cout << Qsca << std::endl;
   //convert via a std::vector - slow
@@ -98,3 +84,5 @@ NumericVector scattnlay_test(){
   
   //NumericVector y = NumericVector::create( 0.0, 1.0 ) ;
   //NumericVector NvQsca( dataVec.begin(), dataVec.end() );
+  
+  

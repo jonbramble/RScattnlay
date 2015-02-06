@@ -2,13 +2,18 @@
 
 S <- Scatterer()
 
-l <- Layer()
+np <- Layer()
+lipid <- Layer()
 
 lambda(S) <- 400
+na(S) <- 1.00
 
-d(l) <- 40
-m(l) <- 1.33+0i;
+d(np) <- 40
+m(np) <- 1.33+0i
 
-St <- S+l
+d(lipid) <- 42
+m(lipid) <- 1.45+0i
+
+St <- S+np+lipid
 
 scattnlay(St)

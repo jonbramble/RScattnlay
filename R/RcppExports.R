@@ -5,7 +5,3 @@ S4_SCATTNLAY <- function(fullstack) {
     .Call('Rscattnlay_S4_SCATTNLAY', PACKAGE = 'Rscattnlay', fullstack)
 }
 
-scattnlay_test <- function() {
-    .Call('Rscattnlay_scattnlay_test', PACKAGE = 'Rscattnlay')
-}
-
