@@ -102,13 +102,13 @@ complex calc_S2_n(int n, complex an, complex bn, double Pin, double Taun) {
 int nMie(int L, double x[], complex m[], int nTheta, double Theta[], double *Qext, double *Qsca, double *Qabs, double *Qbk, double *Qpr, double *g, double *Albedo, complex S1[], complex S2[]) {
   int n_max = Nmax(L, x, m);
   
-  printf("m %f,i%f\n",m[0].r,m[0].i);
-  printf("m %f,i%f\n",m[1].r,m[1].i);
+  /*printf("m %f,i%f\n",m[1].r,m[1].i);
+  printf("m %f,i%f\n",m[2].r,m[2].i);
   
-  printf("x %f\n",x[0]);
   printf("x %f\n",x[1]);
+  printf("x %f\n",x[2]);
   printf("L %d\n",L);
-  printf("nt %d\n",nTheta);
+  printf("nt %d\n",nTheta);*/
 
   complex an, bn, anP1, bnP1, Qbktmp;
 
@@ -323,6 +323,6 @@ int nMie(int L, double x[], complex m[], int nTheta, double Theta[], double *Qex
   *g = (*Qext - *Qpr) / *Qsca;                          // Equation (32)
 
   *Qbk = (Qbktmp.r*Qbktmp.r + Qbktmp.i*Qbktmp.i)/x2;    // Equation (33)
-
+  
   return n_max;
 }
