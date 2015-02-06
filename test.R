@@ -7,9 +7,9 @@ lipid <- Layer()  # and other layers
 
 na(S) <- 1.33     # set the ambient index
 
-d(np) <- 40       # and the size of the np in nm
+d(np) <- 80       # and the size of the np in nm
 
-d(lipid) <- 42    # and the size of the other layers
+d(lipid) <- 82    # and the size of the other layers
 m(lipid) <- 1.45+0i   #fixed value
 
 # load up silver data
@@ -21,7 +21,7 @@ n_palik <- palik_ag_vis$n
 k_palik <- palik_ag_vis$k
 
 #interpolation as palik data is sparse
-n = 1024 #number of points
+n = 128 #number of points
 spl_n <- approx(lambda_palik,n_palik,n=n)
 spl_k <- approx(lambda_palik,k_palik,n=n)
 
@@ -34,12 +34,11 @@ colnames(Qf) <- c("Qext", "Qsca", "Qabs", "Qbk", "Qpr", "g", "Albedo", "nmax","L
 for(k in 1:n) {
  m(np) <- spl_n$y[k]+spl_k$y[k]*(0+1i);
  lambda(S) <- lambda[k];
- St <- S+np;
+ St <- S+np;              # PUT THE STACK HERE
  Q <- scattnlay(St);
  Q[9] <- lambda[k];
  Qf[k,] <- Q;
 }
-
 
 Qf_l = matrix(nrow = n, ncol = 9, byrow=TRUE)
 colnames(Qf_l) <- c("Qext", "Qsca", "Qabs", "Qbk", "Qpr", "g", "Albedo", "nmax","Lambda")
@@ -54,7 +53,7 @@ for(k in 1:n) {
   Qf_l[k,] <- Q;
 }
 
-plot(Qf[,"Lambda"],Qf[,"Qsca"],type="l",col="black")
+plot(Qf[,"Lambda"],Qf[,"Qsca"],type="l",col="black",ylab="Qsca",xlab="Lambda /nm")
 lines(Qf_l[,"Lambda"],Qf_l[,"Qsca"],type="l",col="red")
 
-
+plot(Qf[,"Lambda"],Qf_l[,"Qsca"]-Qf[,"Qsca"],type="l")
