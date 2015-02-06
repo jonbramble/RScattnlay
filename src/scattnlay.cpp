@@ -8,7 +8,6 @@ No licence could be found in the original program code
 
 #include <Rcpp.h>
 #include <iostream>
-#include <complex>
 
 extern "C" {
   #include "ucomplex.h"     //uses a custom complex number handelling code - a <complex> rewrite might be nice
@@ -55,6 +54,8 @@ NumericVector S4_SCATTNLAY(Rcpp::S4 fullstack){
   for(int i=0;i<layer_count;i++){
     S4 S4layer((SEXP)layers[i]);  // get the layer S4 object from the list
     mz = S4layer.slot("m");
+    d = S4layer.slot("d");
+  
     mr = mz.r;
     mi = mz.i;
     
@@ -63,9 +64,6 @@ NumericVector S4_SCATTNLAY(Rcpp::S4 fullstack){
   
     m[i+1].r = mr/na;             //scaled values of m
     m[i+1].i = mi/na;
-     
-    d = S4layer.slot("d");
-    
     x[i+1] = 2*PI*na*d/lambda;    //scaled value of x
   }
   
@@ -75,14 +73,10 @@ NumericVector S4_SCATTNLAY(Rcpp::S4 fullstack){
   return z; 
 }
 
-  //std::cout << Qsca << std::endl;
-  //convert via a std::vector - slow
+
+//std::vector<double> dataVec;
+//unsigned dataArraySize = sizeof(Theta) / sizeof(double);
+//dataVec.insert(dataVec.end(), &Theta[0], &Theta[dataArraySize]);
   
-  //std::vector<double> dataVec;
-  //unsigned dataArraySize = sizeof(Theta) / sizeof(double);
-  //dataVec.insert(dataVec.end(), &Theta[0], &Theta[dataArraySize]);
-  
-  //NumericVector y = NumericVector::create( 0.0, 1.0 ) ;
-  //NumericVector NvQsca( dataVec.begin(), dataVec.end() );
-  
-  
+//NumericVector y = NumericVector::create( 0.0, 1.0 ) ;
+//NumericVector NvQsca( dataVec.begin(), dataVec.end() );
