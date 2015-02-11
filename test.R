@@ -1,15 +1,14 @@
 #scattnlay()
+library(Rscattnlay)
+library(ggplot2)
 
 S <- Scatterer()  # create a scatterer object
 
 np <- Layer()     # and a layer representing the np
 lipid <- Layer()  # and other layers
-
 na(S) <- 1.33     # set the ambient index
-
-d(np) <- 80       # and the size of the np in nm
-
-d(lipid) <- 82    # and the size of the other layers
+d(np) <- 40       # and the size of the np in nm
+d(lipid) <- 45    # and the size of the other layers
 m(lipid) <- 1.45+0i   #fixed value
 
 # load up silver data
@@ -21,39 +20,34 @@ n_palik <- palik_ag_vis$n
 k_palik <- palik_ag_vis$k
 
 #interpolation as palik data is sparse
-n = 128 #number of points
+n = 256 #number of points
 spl_n <- approx(lambda_palik,n_palik,n=n)
 spl_k <- approx(lambda_palik,k_palik,n=n)
-
 lambda = spl_n$x
 
-Qf = matrix(nrow = n, ncol = 9, byrow=TRUE)
-colnames(Qf) <- c("Qext", "Qsca", "Qabs", "Qbk", "Qpr", "g", "Albedo", "nmax","Lambda")
-
-# array based for now
-for(k in 1:n) {
- m(np) <- spl_n$y[k]+spl_k$y[k]*(0+1i);
- lambda(S) <- lambda[k];
- St <- S+np;              # PUT THE STACK HERE
- Q <- scattnlay(St);
- Q[9] <- lambda[k];
- Qf[k,] <- Q;
-}
-
-Qf_l = matrix(nrow = n, ncol = 9, byrow=TRUE)
-colnames(Qf_l) <- c("Qext", "Qsca", "Qabs", "Qbk", "Qpr", "g", "Albedo", "nmax","Lambda")
-
-# array based for now
-for(k in 1:n) {
+scatnlay_ar <-function(k){
   m(np) <- spl_n$y[k]+spl_k$y[k]*(0+1i);
   lambda(S) <- lambda[k];
-  St <- S+np+lipid;
+  St <- S+np;              # PUT THE STACK HERE
   Q <- scattnlay(St);
-  Q[9] <- lambda[k];
-  Qf_l[k,] <- Q;
 }
 
-plot(Qf[,"Lambda"],Qf[,"Qsca"],type="l",col="black",ylab="Qsca",xlab="Lambda /nm")
-lines(Qf_l[,"Lambda"],Qf_l[,"Qsca"],type="l",col="red")
+scatnlay_ar_lipid <-function(k){
+  m(np) <- spl_n$y[k]+spl_k$y[k]*(0+1i);
+  lambda(S) <- lambda[k];
+  St <- S+np+lipid;              # PUT THE STACK HERE
+  Q <- scattnlay(St);
+}
 
-plot(Qf[,"Lambda"],Qf_l[,"Qsca"]-Qf[,"Qsca"],type="l")
+output <- sapply(1:n,scatnlay_ar)
+output_lipid <- sapply(1:n,scatnlay_ar_lipid)
+data_mat_np <- data.frame(t(output),lambda,1)
+data_mat_lipid <- data.frame(t(output_lipid),lambda,2)
+
+colnames(data_mat_np) <- c("Qext", "Qsca", "Qabs", "Qbk", "Qpr", "g", "Albedo", "nmax","Lambda","Layers")
+colnames(data_mat_lipid) <- c("Qext", "Qsca", "Qabs", "Qbk", "Qpr", "g", "Albedo", "nmax","Lambda","Layers")
+
+data_mat <- rbind(data_mat_np,data_mat_lipid)
+
+scat_plot <- ggplot(data=data_mat, aes(x=Lambda,y=Qsca, group=as.factor(Layers), color=as.factor(Layers)))
+scat_plot + geom_line() + theme_minimal()
