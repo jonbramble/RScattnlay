@@ -1,7 +1,7 @@
 Layer <- setClass("Layer",
                   representation(
                     m="complex",
-                    d="numeric"
+                    r="numeric"
                     ))
 
 Scatterer <- setClass("Scatterer",
@@ -13,7 +13,7 @@ Scatterer <- setClass("Scatterer",
 
 setMethod("show", signature(object="Layer"),function(object){
   cat("Layer Data \n")
-  cat("Diameter:", object@d," nm\n")
+  cat("Diameter:", 2*object@r," nm\n")
   cat("Epsilon:", object@m,"\n")
 })
 
@@ -24,12 +24,12 @@ setMethod("show", signature(object="Scatterer"),function(object){
 
 setGeneric("na<-",function(x,value) standardGeneric("na<-"))
 setGeneric("lambda<-",function(x,value) standardGeneric("lambda<-"))
-setGeneric("d<-",function(x,value) standardGeneric("d<-"))
+setGeneric("r<-",function(x,value) standardGeneric("r<-"))
 setGeneric("m<-",function(x,value) standardGeneric("m<-"))
 
 setReplaceMethod("na","Scatterer", function(x,value) {x@na <- value; validObject(x); x})
 setReplaceMethod("lambda","Scatterer", function(x,value) {x@lambda <- value; validObject(x); x})
-setReplaceMethod("d","Layer", function(x,value) {x@d <- value; validObject(x); x})
+setReplaceMethod("r","Layer", function(x,value) {x@r <- value; validObject(x); x})
 setReplaceMethod("m","Layer", function(x,value) {x@m <- value; validObject(x); x})
 
 setGeneric("scattnlay", function(object) {standardGeneric("scattnlay")})
