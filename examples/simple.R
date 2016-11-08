@@ -13,7 +13,7 @@ na(S) <- 1.33     # set the ambient index
 r(np) <- 40       # and the size (radius) of the np in nm
 
 # load up silver data
-palik_ag_vis <- read.table("palik_ag_vis_hb.csv",sep=",", header=TRUE, nrows=49)
+palik_ag_vis <- read.table("data//palik_ag_vis_hb.csv",sep=",", header=TRUE, nrows=49)
 colnames(palik_ag_vis) <- c("lambda","n","k","eps_real","eps_imag")
 
 lambda_palik <- palik_ag_vis$lambda #convert to nm
