@@ -22,7 +22,7 @@ r(lipid) <- 40    # and the size (radius) of the other layers
 m(lipid) <- 1.45+0i   #fixed value
 
 # load up silver data
-palik_ag_vis <- read.table("palik_ag_vis_hb.csv", header=TRUE)
+palik_ag_vis <- read.table("palik_ag_vis_hb.csv",sep=",", header=TRUE)
 colnames(palik_ag_vis) <- c("lambda","n","k","eps_real","eps_imag")
 
 lambda_palik <- palik_ag_vis$lambda #convert to nm

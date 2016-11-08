@@ -22,7 +22,7 @@ using namespace Rcpp;
 // [[Rcpp::export]]
 NumericVector S4_SCATTNLAY(Rcpp::S4 fullstack){
   int layer_count;
-  double lambda, na, mr, mi, d;
+  double lambda, na, mr, mi, r;
   Rcomplex mz;
   
   Rcpp::List layers;
@@ -54,7 +54,7 @@ NumericVector S4_SCATTNLAY(Rcpp::S4 fullstack){
   for(int i=0;i<layer_count;i++){
     S4 S4layer((SEXP)layers[i]);  // get the layer S4 object from the list
     mz = S4layer.slot("m");
-    d = S4layer.slot("d");
+    r = S4layer.slot("r");
   
     mr = mz.r;
     mi = mz.i;
@@ -64,7 +64,7 @@ NumericVector S4_SCATTNLAY(Rcpp::S4 fullstack){
   
     m[i+1].r = mr/na;             //scaled values of m
     m[i+1].i = mi/na;
-    x[i+1] = 2*PI*na*d/lambda;    //scaled value of x
+    x[i+1] = 2*PI*na*r/lambda;    //scaled value of x
   }
   
   // call the c code here

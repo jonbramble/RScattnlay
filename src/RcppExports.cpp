@@ -9,14 +9,10 @@ using namespace Rcpp;
 NumericVector S4_SCATTNLAY(Rcpp::S4 fullstack);
 RcppExport SEXP Rscattnlay_S4_SCATTNLAY(SEXP fullstackSEXP) {
 BEGIN_RCPP
-    SEXP __sexp_result;
-    {
-        Rcpp::RNGScope __rngScope;
-        Rcpp::traits::input_parameter< Rcpp::S4 >::type fullstack(fullstackSEXP );
-        NumericVector __result = S4_SCATTNLAY(fullstack);
-        PROTECT(__sexp_result = Rcpp::wrap(__result));
-    }
-    UNPROTECT(1);
-    return __sexp_result;
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< Rcpp::S4 >::type fullstack(fullstackSEXP);
+    __result = Rcpp::wrap(S4_SCATTNLAY(fullstack));
+    return __result;
 END_RCPP
 }

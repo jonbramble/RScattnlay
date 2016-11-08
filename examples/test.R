@@ -1,23 +1,24 @@
 #scattnlay()
 library(Rscattnlay)
 library(ggplot2)
+library(reshape2)
 
 S <- Scatterer()  # create a scatterer object
 
 np <- Layer()     # and a layer representing the np
 lipid <- Layer()  # and other layers
 water <- Layer()
-na(S) <- 1.33     # set the ambient index
-d(np) <- 40       # and the size (radius) of the np in nm
+na(S) <- 1.33   # set the ambient index
+r(np) <- 20       # and the size (radius) of the np in nm
 
-d(water) <- 41
+r(water) <- 21
 m(water) <- 1.33+0i
 
-d(lipid) <- 41    # and the size (radius) of the other layers
-m(lipid) <- 1.40+0i   #fixed value
+r(lipid) <- 21    # and the size (radius) of the other layers
+m(lipid) <- 1.45+0i   #fixed value
 
 # load up silver data
-palik_ag_vis <- read.table("palik_ag_vis_hb.csv", header=TRUE)
+palik_ag_vis <- read.table("palik_ag_vis_hb.csv",sep=",", header=TRUE)
 colnames(palik_ag_vis) <- c("lambda","n","k","eps_real","eps_imag")
 
 lambda_palik <- palik_ag_vis$lambda #convert to nm
@@ -25,7 +26,7 @@ n_palik <- palik_ag_vis$n
 k_palik <- palik_ag_vis$k
 
 #interpolation as palik data is sparse
-n = 512 #number of points
+n = 1024 #number of points
 spl_n <- approx(lambda_palik,n_palik,n=n)
 spl_k <- approx(lambda_palik,k_palik,n=n)
 lambda = spl_n$x
@@ -54,15 +55,25 @@ colnames(data_mat_lipid) <- c("Qext", "Qsca", "Qabs", "Qbk", "Qpr", "g", "Albedo
 
 data_mat <- rbind(data_mat_np,data_mat_lipid)
 
-ext <- subset(data_mat_lipid, Lambda < 700, select= c("Qext","Lambda"))
-ext$Lambda[which.max(ext$Qext)]
+ext_water <- subset(data_mat_np, Lambda < 700, select= c("Qext","Lambda"))
+ext_water$Lambda[which.max(ext_water$Qext)]
 
+ext_lipid <- subset(data_mat_lipid, Lambda < 700, select= c("Qext","Lambda"))
+ext_lipid$Lambda[which.max(ext_lipid$Qext)]
+
+dif_Qext <- data.frame(ext_lipid$Qext-ext_water$Qext) ## might be able to use aggregate here
+dif_spectra <- cbind(ext_lipid$Lambda,dif_Qext)
+colnames(dif_spectra) <- c("lambda","D_Qext")
 
 palik_ag_melt <- melt(subset(palik_ag_vis,select = c("lambda","n","k")), id=c("lambda"),variable.name = "type", 
                       value.name = "Index")
 
-ag_plot <- ggplot(data=palik_ag_melt, aes(x=lambda,y=Index, group=type, color=type))
-ag_plot + geom_line() + theme_minimal(base_size=22) + xlim(c(300,700)) + ylim(c(0,6)) + xlab("Wavelength (nm)")
+ag_plot <- ggplot(data=palik_ag_melt, aes(x=lambda,y=Index, group=type, color=type)) +
+ geom_line() + theme_minimal(base_size=22) + xlim(c(350,550)) + ylim(c(0,6)) + xlab("Wavelength (nm)")
+ggsave(file="silver.svg", plot=ag_plot, width=10, height=8)
 
 scat_plot <- ggplot(data=data_mat, aes(x=Lambda,y=Qext, group=as.factor(Layers), color=as.factor(Layers))) 
-scat_plot + geom_line() + theme_minimal(base_size=22) + xlim(c(300,700)) + labs(colour = "Layers") 
+scat_plot + geom_line() + theme_minimal(base_size=22) + xlim(c(350,550))+ ylim(c(0,10)) + labs(colour = "1nm Layer")  + xlab("Wavelength (nm)")
+
+dif_plot <- ggplot(data=dif_spectra, aes(x=lambda,y=D_Qext))
+dif_plot + geom_line() + theme_minimal(base_size=22) + xlim(c(350,550)) + xlab("Wavelength (nm)")
