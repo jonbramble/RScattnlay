@@ -57,9 +57,15 @@ setMethod("r<-","Layer", function(x,value) {x@r <- value; validObject(x); x})
 setMethod("m<-","Layer", function(x,value) {x@m <- value; validObject(x); x})
 
 setGeneric("scattnlay", function(object) {standardGeneric("scattnlay")})
+setGeneric("amplitudes", function(object) {standardGeneric("amplitudes")})
 
 setMethod("scattnlay",signature(object="Scatterer"),function(object){
   Rpp<-S4_SCATTNLAY(object)
+  return(Rpp)
+})
+
+setMethod("scattnlay",signature(object="Scatterer"),function(object){
+  Rpp<-S4_AMPL(object)
   return(Rpp)
 })
 
