@@ -34,7 +34,7 @@ using namespace Rcpp;
 #define MAXTHETA 800
 
 // [[Rcpp::export]]
-NumericVector S4_SCATTNLAY(Rcpp::S4 fullstack){
+DoubleVector S4_SCATTNLAY(Rcpp::S4 fullstack){
   int layer_count;
   double lambda, na, mr, mi, r;
   Rcomplex mz;
@@ -44,8 +44,9 @@ NumericVector S4_SCATTNLAY(Rcpp::S4 fullstack){
   int nmax = 0; // return value from nmie
   int nTheta;
   
-  double x[MAXLAYERS],Theta[MAXLAYERS];
+  double x[MAXLAYERS];
   complex m[MAXLAYERS];
+  double Theta[MAXTHETA];
   double Qext, Qsca, Qabs, Qbk, Qpr, g, Albedo;
   double ti= 0.0, tf = 90.0;
   int nt = 0; 
@@ -57,7 +58,11 @@ NumericVector S4_SCATTNLAY(Rcpp::S4 fullstack){
   nt = fullstack.slot("nt");
   layer_count = layers.size();
   
-  if(nt>1)
+  if(nt==1)
+  {
+    Theta[0] = ti*PI/180.0;
+  }
+  else
   {
     for (int i = 0; i < nt; i++) {
       Theta[i] = (ti + (double)i*(tf - ti)/(nt - 1))*PI/180.0;
@@ -80,6 +85,6 @@ NumericVector S4_SCATTNLAY(Rcpp::S4 fullstack){
   
   // call the c code here
   nmax = nMie(layer_count, x, m, nt, Theta, &Qext, &Qsca, &Qabs, &Qbk, &Qpr, &g, &Albedo, S1, S2);
-  NumericVector z = NumericVector::create(Qext, Qsca, Qabs, Qbk, Qpr, g, Albedo, nmax);
+  DoubleVector z = DoubleVector::create(Qext, Qsca, Qabs, Qbk, Qpr, g, Albedo, nmax);
   return z; 
 }

@@ -6,7 +6,7 @@
 using namespace Rcpp;
 
 // S4_SCATTNLAY
-NumericVector S4_SCATTNLAY(Rcpp::S4 fullstack);
+DoubleVector S4_SCATTNLAY(Rcpp::S4 fullstack);
 RcppExport SEXP _Rscattnlay_S4_SCATTNLAY(SEXP fullstackSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;

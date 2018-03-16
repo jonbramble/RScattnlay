@@ -18,7 +18,13 @@ Scatterer <- setClass("Scatterer",
                  nt=0,
                  ti=0.0,
                  tf=90.0
-               )
+               ),
+               validity = function(object) {
+                  if(object@nt < 0){
+                    return("Negative value given for the number of theta angles")
+                  } 
+                 return(TRUE)
+                }
                )
 
 setMethod("show", signature(object="Layer"),function(object){
