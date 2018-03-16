@@ -5,6 +5,17 @@
 
 using namespace Rcpp;
 
+// S4_AMPL
+DataFrame S4_AMPL(Rcpp::S4 fullstack);
+RcppExport SEXP _Rscattnlay_S4_AMPL(SEXP fullstackSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::S4 >::type fullstack(fullstackSEXP);
+    rcpp_result_gen = Rcpp::wrap(S4_AMPL(fullstack));
+    return rcpp_result_gen;
+END_RCPP
+}
 // S4_SCATTNLAY
 DoubleVector S4_SCATTNLAY(Rcpp::S4 fullstack);
 RcppExport SEXP _Rscattnlay_S4_SCATTNLAY(SEXP fullstackSEXP) {
@@ -18,6 +29,7 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
+    {"_Rscattnlay_S4_AMPL", (DL_FUNC) &_Rscattnlay_S4_AMPL, 1},
     {"_Rscattnlay_S4_SCATTNLAY", (DL_FUNC) &_Rscattnlay_S4_SCATTNLAY, 1},
     {NULL, NULL, 0}
 };

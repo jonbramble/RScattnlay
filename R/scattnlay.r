@@ -64,9 +64,9 @@ setMethod("scattnlay",signature(object="Scatterer"),function(object){
   return(Rpp)
 })
 
-setMethod("scattnlay",signature(object="Scatterer"),function(object){
-  Rpp<-S4_AMPL(object)
-  return(Rpp)
+setMethod("amplitudes",signature(object="Scatterer"),function(object){
+  S<-S4_AMPL(object)
+  return(S)
 })
 
 setMethod("+", signature(e1="Scatterer",e2="Layer"), function(e1,e2){
