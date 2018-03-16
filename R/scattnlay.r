@@ -1,26 +1,32 @@
 Layer <- setClass("Layer",
-                  representation(
+                  slots=c(
                     m="complex",
                     r="numeric"
                     ))
 
 Scatterer <- setClass("Scatterer",
-               representation(
+               slots=c(
                  na="numeric",
                  lambda="numeric",
                  nt="numeric",
-                 layers="list")
+                 layers="list"),
+               prototype=list(
+                 na = 1.0,
+                 lambda = 500,
+                 nt=0
+               )
                )
 
 setMethod("show", signature(object="Layer"),function(object){
   cat("Layer Data \n")
   cat("Diameter:", 2*object@r," nm\n")
-  cat("Epsilon:", object@m,"\n")
+  cat("Complex Index:", object@m,"\n")
 })
 
 setMethod("show", signature(object="Scatterer"),function(object){
   cat("Scatterer Data \n")
   cat("Lambda:", object@lambda," nm\n")
+  cat("Ambient Index", object@na, "\n")
 })
 
 setGeneric("na<-",function(x,value) standardGeneric("na<-"))

@@ -54,7 +54,7 @@ NumericVector S4_SCATTNLAY(Rcpp::S4 fullstack){
   lambda = fullstack.slot("lambda");
   na = fullstack.slot("na");
   layers = fullstack.slot("layers");
-  nt = fullstack.slot("nt");
+  //nt = fullstack.slot("nt");
   layer_count = layers.size();
   
   if(nt>1)
@@ -80,6 +80,6 @@ NumericVector S4_SCATTNLAY(Rcpp::S4 fullstack){
   
   // call the c code here
   nmax = nMie(layer_count, x, m, nt, Theta, &Qext, &Qsca, &Qabs, &Qbk, &Qpr, &g, &Albedo, S1, S2);
-  NumericVector z = NumericVector::create(Qext, Qsca, Qabs, Qbk, Qpr, g, Albedo);
+  NumericVector z = NumericVector::create(Qext, Qsca, Qabs, Qbk, Qpr, g, Albedo, nmax);
   return z; 
 }
