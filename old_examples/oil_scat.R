@@ -7,6 +7,8 @@ S <- Scatterer()  # create a scatterer object
 dr <- Layer()     # and a layer representing the droplet
 na(S) <- 1.33    # set the ambient index
 lambda(S) <- 600
+nt(S) <- 1
+
 
 m(dr) <- 1.431+0i;
 

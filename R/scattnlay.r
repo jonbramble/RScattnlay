@@ -42,6 +42,8 @@ setMethod("show", signature(object="Scatterer"),function(object){
 setGeneric("na<-",function(x,value) standardGeneric("na<-"))
 setGeneric("lambda<-",function(x,value) standardGeneric("lambda<-"))
 setGeneric("nt<-",function(x,value) standardGeneric("nt<-"))
+setGeneric("ti<-",function(x,value) standardGeneric("ni<-"))
+setGeneric("tf<-",function(x,value) standardGeneric("nf<-"))
 setGeneric("r<-",function(x,value) standardGeneric("r<-"))
 setGeneric("m<-",function(x,value) standardGeneric("m<-"))
 
@@ -49,6 +51,8 @@ setGeneric("m<-",function(x,value) standardGeneric("m<-"))
 setMethod("na<-","Scatterer", function(x,value) {x@na <- value; validObject(x); x})
 setMethod("lambda<-","Scatterer", function(x,value) {x@lambda <- value; validObject(x); x})
 setMethod("nt<-","Scatterer", function(x,value) {x@nt <- value; validObject(x); x})
+setMethod("ti<-","Scatterer", function(x,value) {x@ti <- value; validObject(x); x})
+setMethod("tf<-","Scatterer", function(x,value) {x@tf <- value; validObject(x); x})
 setMethod("r<-","Layer", function(x,value) {x@r <- value; validObject(x); x})
 setMethod("m<-","Layer", function(x,value) {x@m <- value; validObject(x); x})
 
