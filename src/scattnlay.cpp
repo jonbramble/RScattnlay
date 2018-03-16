@@ -54,7 +54,7 @@ NumericVector S4_SCATTNLAY(Rcpp::S4 fullstack){
   lambda = fullstack.slot("lambda");
   na = fullstack.slot("na");
   layers = fullstack.slot("layers");
-  //nt = fullstack.slot("nt");
+  nt = fullstack.slot("nt");
   layer_count = layers.size();
   
   if(nt>1)

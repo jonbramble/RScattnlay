@@ -9,11 +9,15 @@ Scatterer <- setClass("Scatterer",
                  na="numeric",
                  lambda="numeric",
                  nt="numeric",
+                 ti="numeric",
+                 tf="numeric",
                  layers="list"),
                prototype=list(
                  na = 1.0,
                  lambda = 500,
-                 nt=0
+                 nt=0,
+                 ti=0.0,
+                 tf=90.0
                )
                )
 
@@ -36,11 +40,11 @@ setGeneric("r<-",function(x,value) standardGeneric("r<-"))
 setGeneric("m<-",function(x,value) standardGeneric("m<-"))
 
 
-setReplaceMethod("na","Scatterer", function(x,value) {x@na <- value; validObject(x); x})
-setReplaceMethod("lambda","Scatterer", function(x,value) {x@lambda <- value; validObject(x); x})
-setReplaceMethod("nt","Scatterer", function(x,value) {x@nt <- value; validObject(x); x})
-setReplaceMethod("r","Layer", function(x,value) {x@r <- value; validObject(x); x})
-setReplaceMethod("m","Layer", function(x,value) {x@m <- value; validObject(x); x})
+setMethod("na<-","Scatterer", function(x,value) {x@na <- value; validObject(x); x})
+setMethod("lambda<-","Scatterer", function(x,value) {x@lambda <- value; validObject(x); x})
+setMethod("nt<-","Scatterer", function(x,value) {x@nt <- value; validObject(x); x})
+setMethod("r<-","Layer", function(x,value) {x@r <- value; validObject(x); x})
+setMethod("m<-","Layer", function(x,value) {x@m <- value; validObject(x); x})
 
 setGeneric("scattnlay", function(object) {standardGeneric("scattnlay")})
 
