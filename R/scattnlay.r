@@ -42,8 +42,8 @@ setMethod("show", signature(object="Scatterer"),function(object){
 setGeneric("na<-",function(x,value) standardGeneric("na<-"))
 setGeneric("lambda<-",function(x,value) standardGeneric("lambda<-"))
 setGeneric("nt<-",function(x,value) standardGeneric("nt<-"))
-setGeneric("ti<-",function(x,value) standardGeneric("ni<-"))
-setGeneric("tf<-",function(x,value) standardGeneric("nf<-"))
+setGeneric("ti<-",function(x,value) standardGeneric("ti<-"))
+setGeneric("tf<-",function(x,value) standardGeneric("tf<-"))
 setGeneric("r<-",function(x,value) standardGeneric("r<-"))
 setGeneric("m<-",function(x,value) standardGeneric("m<-"))
 
