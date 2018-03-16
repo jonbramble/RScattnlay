@@ -64,10 +64,10 @@ setMethod("scattnlay",signature(object="Scatterer"),function(object){
   return(Rpp)
 })
 
-setMethod("scattnlay",signature(object="Scatterer"),function(object){
-  Rpp<-S4_AMPL(object)
-  return(Rpp)
-})
+#setMethod("scattnlay",signature(object="Scatterer"),function(object){
+#  Rpp<-S4_AMPL(object)
+#  return(Rpp)
+#})
 
 setMethod("+", signature(e1="Scatterer",e2="Layer"), function(e1,e2){
   e1@layers <- c(e1@layers,e2)
