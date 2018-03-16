@@ -1,9 +1,23 @@
 /*
 Taken from the scattnlay program by Pena and Pal
 For original paper see
-doi:10.1016/j.cpc.2009.07.010
-
-No licence could be found in the original program code
+doi:10.1016/j.cpc.2009.07.010  http://www.cpc.cs.qub.ac.uk/  catalog AEEY_v1_0 
+ 
+ O. Peña, U. Pal
+ Scattnlay
+ This program is free software; you can redistribute it and/or
+ modify it under the terms of the GNU General Public License
+ as published by the Free Software Foundation; either version 2
+ of the License, or (at your option) any later version.
+ 
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+ 
+ You should have received a copy of the GNU General Public License
+ along with this program; if not, write to the Free Software
+ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
 #include <Rcpp.h>
@@ -34,22 +48,21 @@ NumericVector S4_SCATTNLAY(Rcpp::S4 fullstack){
   complex m[MAXLAYERS];
   double Qext, Qsca, Qabs, Qbk, Qpr, g, Albedo;
   double ti= 0.0, tf = 90.0;
-  int nt = 0;  // what is nt - if you want to spec the theta angles
-  complex S1[MAXLAYERS], S2[MAXLAYERS];
-  
-  // Not implemented in S4 yet
-  // fill in the values for theta
-  if(nt>1)
-  {
-   for (int i = 0; i < nt; i++) {
-    Theta[i] = (ti + (double)i*(tf - ti)/(nt - 1))*PI/180.0;
-   }
-  }
+  int nt = 0; 
+  complex S1[MAXTHETA], S2[MAXTHETA];
     
   lambda = fullstack.slot("lambda");
   na = fullstack.slot("na");
   layers = fullstack.slot("layers");
+  nt = fullstack.slot("nt");
   layer_count = layers.size();
+  
+  if(nt>1)
+  {
+    for (int i = 0; i < nt; i++) {
+      Theta[i] = (ti + (double)i*(tf - ti)/(nt - 1))*PI/180.0;
+    }
+  }
   
   for(int i=0;i<layer_count;i++){
     S4 S4layer((SEXP)layers[i]);  // get the layer S4 object from the list
@@ -58,10 +71,8 @@ NumericVector S4_SCATTNLAY(Rcpp::S4 fullstack){
   
     mr = mz.r;
     mi = mz.i;
-    
-   // some test data from one of the examples
+
    // for some reason, the arrays in nmie start at 1 not 0. 
-  
     m[i+1].r = mr/na;             //scaled values of m
     m[i+1].i = mi/na;
     x[i+1] = 2*PI*na*r/lambda;    //scaled value of x
@@ -69,14 +80,6 @@ NumericVector S4_SCATTNLAY(Rcpp::S4 fullstack){
   
   // call the c code here
   nmax = nMie(layer_count, x, m, nt, Theta, &Qext, &Qsca, &Qabs, &Qbk, &Qpr, &g, &Albedo, S1, S2);
-  NumericVector z = NumericVector::create(Qext, Qsca, Qabs, Qbk, Qpr, g, Albedo, nmax);
+  NumericVector z = NumericVector::create(Qext, Qsca, Qabs, Qbk, Qpr, g, Albedo);
   return z; 
 }
-
-
-//std::vector<double> dataVec;
-//unsigned dataArraySize = sizeof(Theta) / sizeof(double);
-//dataVec.insert(dataVec.end(), &Theta[0], &Theta[dataArraySize]);
-  
-//NumericVector y = NumericVector::create( 0.0, 1.0 ) ;
-//NumericVector NvQsca( dataVec.begin(), dataVec.end() );

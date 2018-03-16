@@ -2,6 +2,6 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 S4_SCATTNLAY <- function(fullstack) {
-    .Call('Rscattnlay_S4_SCATTNLAY', PACKAGE = 'Rscattnlay', fullstack)
+    .Call('_Rscattnlay_S4_SCATTNLAY', PACKAGE = 'Rscattnlay', fullstack)
 }
 
