@@ -3,7 +3,7 @@
 \alias{Rscattnlay}
 \docType{package}
 \title{
-What the package does (short line)
+R interface for the Scattnlay program
 }
 \description{
 More about what it does (maybe more than one line)

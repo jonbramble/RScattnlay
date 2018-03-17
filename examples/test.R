@@ -24,7 +24,6 @@ spl_n <- approx(lambda_palik,n_palik,n=n)
 spl_k <- approx(lambda_palik,k_palik,n=n)
 lambda = spl_n$x
 
-
 k <- 450
 m(np) <- spl_n$y[k]+spl_k$y[k]*(0+1i)
 lambda(S) <- lambda[k]
