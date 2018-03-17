@@ -102,12 +102,13 @@ DataFrame S4_AMPL(Rcpp::S4 fullstack){
 
   ComplexVector zv_s1 = ComplexVector(nt); //allocate these vectors
   ComplexVector zv_s2 = ComplexVector(nt);
-  //NumericVector fv_theta = NumericVector(Theta); // also need to return the theta values 
+  NumericVector fv_theta = NumericVector(nt); // also need to return the theta values 
     
   std::transform (S1.begin(), S1.end(), zv_s1.begin(), zconv);  // convert between types here
   std::transform (S2.begin(), S2.end(), zv_s2.begin(), zconv);
+  std::copy(Theta.begin(),Theta.end(), fv_theta.begin());
   
-  DataFrame Q = DataFrame::create(Named("S1")=zv_s1,Named("S2")=zv_s2);
+  DataFrame Q = DataFrame::create(Named("Theta")=fv_theta,Named("S1")=zv_s1,Named("S2")=zv_s2);
   return Q;
 }
 
