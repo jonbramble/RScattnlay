@@ -22,6 +22,8 @@ doi:10.1016/j.cpc.2009.07.010  http://www.cpc.cs.qub.ac.uk/  catalog AEEY_v1_0
 
 #include <Rcpp.h>
 #include <iostream>
+#include <vector>
+#include <algorithm>
 
 extern "C" {
   #include "ucomplex.h"     //uses a custom complex number handelling code - a <complex> rewrite might be nice
@@ -35,6 +37,14 @@ using namespace Rcpp;
 
 // lots of code duplication here and scatnlay doesn't need to calc theta
 
+double real(complex z){ return z.r; }
+double imag(complex z){ return z.i; }
+Rcomplex zconv(complex z) { Rcomplex nz;
+                            nz.r = z.r;
+                            nz.i = z.i;
+                           return nz;
+          }
+
 // [[Rcpp::export]]
 DataFrame S4_AMPL(Rcpp::S4 fullstack){
   int layer_count;
@@ -44,15 +54,10 @@ DataFrame S4_AMPL(Rcpp::S4 fullstack){
   Rcpp::List layers;
   
   int nmax = 0; // return value from nmie
-  
-  double x[MAXLAYERS];
-  complex m[MAXLAYERS];
-  double Theta[MAXTHETA];
   double Qext, Qsca, Qabs, Qbk, Qpr, g, Albedo;
   double ti= 0.0, tf = 90.0;
   int nt = 0; 
-  complex S1[MAXTHETA], S2[MAXTHETA];
-  
+
   lambda = fullstack.slot("lambda");
   na = fullstack.slot("na");
   layers = fullstack.slot("layers");
@@ -60,6 +65,12 @@ DataFrame S4_AMPL(Rcpp::S4 fullstack){
   ti = fullstack.slot("ti");
   tf = fullstack.slot("tf");
   layer_count = layers.size();
+  
+  std::vector<double> x(layer_count+1);
+  std::vector<complex> m(layer_count+1);
+  std::vector<double> Theta(nt);
+  std::vector<complex> S1(nt);  //replace with stl vectors
+  std::vector<complex> S2(nt);
   
   if(nt==1)
   {
@@ -87,19 +98,17 @@ DataFrame S4_AMPL(Rcpp::S4 fullstack){
   }
   
   // call the c code here
-  nmax = nMie(layer_count, x, m, nt, Theta, &Qext, &Qsca, &Qabs, &Qbk, &Qpr, &g, &Albedo, S1, S2);
-  // return S1 and S2 real and imag parts in a matrix or dataframe
+  nmax = nMie(layer_count, x.data(), m.data(), nt, Theta.data(), &Qext, &Qsca, &Qabs, &Qbk, &Qpr, &g, &Albedo, S1.data(), S2.data());
+
+  ComplexVector zv_s1 = ComplexVector(nt); //allocate these vectors
+  ComplexVector zv_s2 = ComplexVector(nt);
+  //NumericVector fv_theta = NumericVector(Theta); // also need to return the theta values 
+    
+  std::transform (S1.begin(), S1.end(), zv_s1.begin(), zconv);  // convert between types here
+  std::transform (S2.begin(), S2.end(), zv_s2.begin(), zconv);
   
-  NumericVector C = NumericVector::create(5.8, 9.1, 3.2);
-  NumericVector D = NumericVector::create(5.0, 9.3, 3.7, 5.6, 3.7);
-  
-  
-  double data[5] = {1.0,2.0,1.0,2.0,1.0};
-  NumericVector E = NumericVector(data,data+sizeof(data)/sizeof(*data)); //constructor of numeric vector? 
-  
-  DataFrame G = DataFrame::create(Named("S1.r")=E,Named("S2.r")=D);
-  return G;
-  
+  DataFrame Q = DataFrame::create(Named("S1")=zv_s1,Named("S2")=zv_s2);
+  return Q;
 }
 
 // [[Rcpp::export]]

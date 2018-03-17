@@ -29,6 +29,8 @@ k <- 500
 m(np) <- spl_n$y[k]+spl_k$y[k]*(0+1i)
 lambda(S) <- lambda[k]
 
+nt(S) <- 10
+
 St <- S+np+lipid
 Q <- amplitudes(St)
 
