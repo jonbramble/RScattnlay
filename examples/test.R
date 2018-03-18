@@ -1,3 +1,4 @@
+library(plotrix)
 S <- Scatterer()  # create a scatterer object
 
 np <- Layer()     # and a layer representing the np
@@ -24,12 +25,17 @@ spl_n <- approx(lambda_palik,n_palik,n=n)
 spl_k <- approx(lambda_palik,k_palik,n=n)
 lambda = spl_n$x
 
-k <- 450
+k <- 200
 m(np) <- spl_n$y[k]+spl_k$y[k]*(0+1i)
 lambda(S) <- lambda[k]
 
-nt(S) <- 10
+nt(S) <- 100
+tf(S) <- 360
 
 St <- S+np+lipid
 Q <- amplitudes(St)
+
+I <- abs(Q$S1)^2 + abs(Q$S2)^2
+angles<-Q$Theta
+radial.plot(I,angles,main="Mie Angular Scattering",show.grid.labels=4,show.grid=TRUE,labels=NA,rp.type = "p")
 
