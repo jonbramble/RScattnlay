@@ -35,15 +35,19 @@ using namespace Rcpp;
 #define MAXLAYERS 1100
 #define MAXTHETA 800
 
-// lots of code duplication here and scatnlay doesn't need to calc theta
-
-double real(complex z){ return z.r; }
-double imag(complex z){ return z.i; }
-Rcomplex zconv(complex z) { Rcomplex nz;
+inline Rcomplex zconv(complex z) { Rcomplex nz;
                             nz.r = z.r;
                             nz.i = z.i;
                            return nz;
-          }
+                           }
+
+inline double cabs2(Rcomplex z){
+  return z.i * z.i + z.r * z.r;
+}
+
+double vsum(Rcomplex _s1, Rcomplex _s2){
+  return cabs2(_s1)+cabs2(_s2);
+}
 
 // [[Rcpp::export]]
 DataFrame S4_AMPL(Rcpp::S4 fullstack){
@@ -103,10 +107,14 @@ DataFrame S4_AMPL(Rcpp::S4 fullstack){
   ComplexVector zv_s1 = ComplexVector(nt); //allocate these vectors
   ComplexVector zv_s2 = ComplexVector(nt);
   NumericVector fv_theta = NumericVector(nt); // also need to return the theta values 
-    
+  std::vector<double> fv_I = std::vector<double>(nt); // and the intensity
+  
   std::transform (S1.begin(), S1.end(), zv_s1.begin(), zconv);  // convert between types here
   std::transform (S2.begin(), S2.end(), zv_s2.begin(), zconv);
   std::copy(Theta.begin(),Theta.end(), fv_theta.begin());
+  
+  //std::transform(zv_s1.begin(), zv_s1.end(), zv_s2.begin(), std::back_inserter(fv_I), vsum);
+  //NumericVector I = wrap(fv_I);
   
   DataFrame Q = DataFrame::create(Named("Theta")=fv_theta,Named("S1")=zv_s1,Named("S2")=zv_s2);
   return Q;
