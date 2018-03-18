@@ -46,3 +46,18 @@ For original cli interface see http://www.cpc.cs.qub.ac.uk/  catalog name AEEY_v
     
     data_mat_lipid <- data.frame(t(output_lipid),lambda,'lipid')
     colnames(data_mat_lipid) <- c("Qext", "Qsca", "Qabs", "Qbk", "Qpr", "g", "Albedo", "nmax","Lambda","Layers")
+    
+    
+## Scattering amplitudes
+
+amplitudes(St) returns the S1 and S2 scattering amplitudes on the scatterer object St
+
+    nt(S) <- 100  # Set the number of scattering angles
+    tf(S) <- 360  # Set the end angle in degrees
+
+    St <- S+np+lipid
+    Q <- amplitudes(St)
+
+    I <- abs(Q$S1)^2 + abs(Q$S2)^2
+    angles<-Q$Theta
+    radial.plot(I,angles,main="Mie Angular Scattering",show.grid.labels=4,show.grid=TRUE,labels=NA,rp.type = "p")   # requires plotrix package
