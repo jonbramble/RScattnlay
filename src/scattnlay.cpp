@@ -113,8 +113,8 @@ DataFrame S4_AMPL(Rcpp::S4 fullstack){
   std::transform (S2.begin(), S2.end(), zv_s2.begin(), zconv);
   std::copy(Theta.begin(),Theta.end(), fv_theta.begin());
   
-  //std::transform(zv_s1.begin(), zv_s1.end(), zv_s2.begin(), std::back_inserter(fv_I), vsum);
-  //NumericVector I = wrap(fv_I);
+  //std::transform(zv_s1.begin(), zv_s1.end(), zv_s2.begin(), std::back_inserter(fv_I), vsum); 
+  //auto I = Rcpp::wrap(fv_I);  // this doesnt work as expected
   
   DataFrame Q = DataFrame::create(Named("Theta")=fv_theta,Named("S1")=zv_s1,Named("S2")=zv_s2);
   return Q;

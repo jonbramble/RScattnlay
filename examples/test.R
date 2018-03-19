@@ -29,7 +29,7 @@ k <- 200
 m(np) <- spl_n$y[k]+spl_k$y[k]*(0+1i)
 lambda(S) <- lambda[k]
 
-nt(S) <- 100
+nt(S) <- 360
 tf(S) <- 360
 
 St <- S+np+lipid
