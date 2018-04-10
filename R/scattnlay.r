@@ -1,9 +1,21 @@
+#' An S4 class to represent a layer around a nanoparticle
+#'
+#' @slot m the complex refractive index
+#' @slot r the radius in nanometers
 Layer <- setClass("Layer",
                   slots=c(
                     m="complex",
                     r="numeric"
                     ))
 
+#' An S4 class to represent a scattering simulation
+#'
+#' @slot na the real refractive index of the ambient or surrounding media
+#' @slot lambda the wavelength of light in nanometers
+#' @slot nt the number of theta angles
+#' @slot ti the starting angle in degrees
+#' @slot tf the end angle in degrees
+#' @slot layers a list of layers of type Layer
 Scatterer <- setClass("Scatterer",
                slots=c(
                  na="numeric",
@@ -64,10 +76,17 @@ setMethod("scattnlay",signature(object="Scatterer"),function(object){
   return(Rpp)
 })
 
+<<<<<<< HEAD
 #setMethod("scattnlay",signature(object="Scatterer"),function(object){
 #  Rpp<-S4_AMPL(object)
 #  return(Rpp)
 #})
+=======
+setMethod("amplitudes",signature(object="Scatterer"),function(object){
+  S<-S4_AMPL(object)
+  return(S)
+})
+>>>>>>> ampl
 
 setMethod("+", signature(e1="Scatterer",e2="Layer"), function(e1,e2){
   e1@layers <- c(e1@layers,e2)

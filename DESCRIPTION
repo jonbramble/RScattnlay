@@ -9,3 +9,4 @@ Description: Provides a convenient R interface for the scattnlay program by Pena
 License: GPL (>= 2)
 Imports: Rcpp (>= 0.11.3)
 LinkingTo: Rcpp
+RoxygenNote: 6.0.1
