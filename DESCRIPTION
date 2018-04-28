@@ -8,5 +8,5 @@ Maintainer: Jonathan Bramble <jbramble82@hotmail.com>
 Description: Provides a convenient R interface for the scattnlay program by Pena and Pal. Mie scattering for multilayered spheres.  
 License: GPL (>= 2)
 Imports: Rcpp (>= 0.11.3)
-LinkingTo: Rcpp
+LinkingTo: Rcpp, RcppArmadillo
 RoxygenNote: 6.0.1

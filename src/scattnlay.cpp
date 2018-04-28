@@ -25,6 +25,8 @@ doi:10.1016/j.cpc.2009.07.010  http://www.cpc.cs.qub.ac.uk/  catalog AEEY_v1_0
 #include <vector>
 #include <algorithm>
 
+#include "scatterer.h"
+
 extern "C" {
   #include "ucomplex.h"     //uses a custom complex number handelling code - a <complex> rewrite might be nice
   #include "nmie.h"         // c code for individual scattering calculations 
@@ -48,6 +50,70 @@ inline double cabs2(Rcomplex z){
 double vsum(Rcomplex _s1, Rcomplex _s2){
   return cabs2(_s1)+cabs2(_s2);
 }
+
+//[[Rcpp::export]]
+DoubleVector S4_SCATTNLAY_PP(Rcpp::S4 fullstack){
+ // std::vector<double> x = {0.01,0.02};
+  //std::complex<double> m1 (1,0);
+ // std::complex<double> m2 (1.2,0);    
+ // std::vector<std::complex<double>> m = {m1,m2};
+ 
+ int layer_count;
+  double lambda, na, mr, mi, r;
+  Rcomplex mz;
+  
+  Rcpp::List layers;
+  
+  //int nmax = 0; // return value from nmie
+  double Qext, Qsca, Qabs, Qbk, Qpr, g, Albedo;
+  //double ti= 0.0, tf = 90.0;
+  //int nt = 0; 
+  
+  lambda = fullstack.slot("lambda");
+  na = fullstack.slot("na");
+  layers = fullstack.slot("layers");
+  //nt = fullstack.slot("nt");
+  //ti = fullstack.slot("ti");
+  //tf = fullstack.slot("tf");
+  layer_count = layers.size();
+  
+  std::vector<double> x(layer_count);
+  std::vector<std::complex<double>> m(layer_count);
+  
+  //std::vector<double> Theta(nt);
+  //std::vector<complex> S1(nt);  //replace with stl vectors
+  //std::vector<complex> S2(nt);
+  
+  /*if(nt==1)
+  {
+    Theta[0] = ti*PI/180.0;
+  }
+  else
+  {
+    for (int i = 0; i < nt; i++) {
+      Theta[i] = (ti + (double)i*(tf - ti)/(nt - 1))*PI/180.0;
+    }
+  }*/
+  
+  for(int i=0;i<layer_count;i++){
+    S4 S4layer((SEXP)layers[i]);  // get the layer S4 object from the list
+    mz = S4layer.slot("m");
+    r = S4layer.slot("r");
+    
+    mr = mz.r;
+    mi = mz.i;
+    
+    m[i].real(mr/na);             //scaled values of m
+    m[i].imag(mi/na);
+    x[i] = 2*PI*na*r/lambda;    //scaled value of x
+  }
+  
+  Scatterer(2,x,m);
+  DoubleVector z = DoubleVector::create(1.0,2.0);
+  return z;
+}
+  
+  
 
 // [[Rcpp::export]]
 DataFrame S4_AMPL(Rcpp::S4 fullstack){
