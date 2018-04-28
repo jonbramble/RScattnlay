@@ -87,6 +87,10 @@ DataFrame S4_AMPL(Rcpp::S4 fullstack){
     }
   }
   
+  x[0] = 0.0;
+  m[0].r = 0.0;
+  m[0].i = 0.0;
+  
   for(int i=0;i<layer_count;i++){
     S4 S4layer((SEXP)layers[i]);  // get the layer S4 object from the list
     mz = S4layer.slot("m");
@@ -143,6 +147,10 @@ DoubleVector S4_SCATTNLAY(Rcpp::S4 fullstack){
   layer_count = layers.size();
 
   Theta[0] = 0.0;
+  
+  x[0] = 0.0;
+  m[0].r = 0.0;
+  m[0].i = 0.0;
 
   for(int i=0;i<layer_count;i++){
     S4 S4layer((SEXP)layers[i]);  // get the layer S4 object from the list
