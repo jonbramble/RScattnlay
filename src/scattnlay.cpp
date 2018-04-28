@@ -53,12 +53,7 @@ double vsum(Rcomplex _s1, Rcomplex _s2){
 
 //[[Rcpp::export]]
 DoubleVector S4_SCATTNLAY_PP(Rcpp::S4 fullstack){
- // std::vector<double> x = {0.01,0.02};
-  //std::complex<double> m1 (1,0);
- // std::complex<double> m2 (1.2,0);    
- // std::vector<std::complex<double>> m = {m1,m2};
- 
- int layer_count;
+  int layer_count;
   double lambda, na, mr, mi, r;
   Rcomplex mz;
   
@@ -108,7 +103,7 @@ DoubleVector S4_SCATTNLAY_PP(Rcpp::S4 fullstack){
     x[i] = 2*PI*na*r/lambda;    //scaled value of x
   }
   
-  Scatterer(2,x,m);
+  Scatterer(layer_count,x,m);
   DoubleVector z = DoubleVector::create(1.0,2.0);
   return z;
 }

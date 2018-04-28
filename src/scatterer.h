@@ -2,13 +2,15 @@
 #include <cmath>
 #include <vector>
 #include <iostream>
+#include <algorithm>
 
 class Scatterer {
 public:
   
   Scatterer(int n, std::vector<double> _x, std::vector<std::complex<double>> _m): L(n), x(_x), m(_m){
     calc_nmax();
-    std::cout << nmax << std::endl;
+    std::cout << "scatterer in cpp" << std::endl;
+    std::cout << "n_max " << nmax << std::endl;
   }
   
 private:

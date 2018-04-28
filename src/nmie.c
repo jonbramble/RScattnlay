@@ -109,6 +109,9 @@ int nMie(int L, double x[], complex m[], int nTheta, double Theta[], double *Qex
   printf("x %f\n",x[2]);
   printf("L %d\n",L);
   printf("nt %d\n",nTheta);*/
+  
+  printf("nmie in c\n");
+  printf("n_max %d\n",n_max);
 
   complex an, bn, anP1, bnP1, Qbktmp;
 
