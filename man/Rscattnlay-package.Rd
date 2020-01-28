@@ -13,26 +13,24 @@ More about what it does (maybe more than one line)
 \tabular{ll}{
 Package: \tab Rscattnlay\cr
 Type: \tab Package\cr
-Version: \tab 1.0\cr
-Date: \tab 2015-02-05\cr
+Version: \tab 1.1\cr
+Date: \tab 2020-01-28\cr
 License: \tab GPL (>= 2)\cr
 }
-~~ An overview of how to use the package, including the most important functions ~~
+
 }
 \author{
-Your Name
-
-Maintainer: Your Name <your@email.com>
+Jonathan Bramble
+Maintainer: Wade Rogers <wade.rogers@spcytomics.com>
 }
 \references{
-~~ Literature or other references for background information ~~
+A R interface for the multilayer scattering program Scattnlay by Pena and Pal. 
+doi:10.1016/j.cpc.2009.07.010  
+
+For original cli interface see http://www.cpc.cs.qub.ac.uk/  catalog name AEEY_v1_0 
 }
-~~ Optionally other standard keywords, one per line, from file KEYWORDS in the R documentation directory ~~
-\keyword{ package }
-\seealso{
-~~ Optional links to other man pages, e.g. ~~
-~~ \code{\link[<pkg>:<pkg>-package]{<pkg>}} ~~
-}
+\keyword{ RScattnlay }
+
 \examples{
 %% ~~ simple examples of the most important functions ~~
 }
