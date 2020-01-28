@@ -74,6 +74,11 @@ setMethod("r<-","Layer", function(x,value) {x@r <- value; validObject(x); x})
 setMethod("m<-","Layer", function(x,value) {x@m <- value; validObject(x); x})
 
 setGeneric("scattnlay", function(object) {standardGeneric("scattnlay")})
+
+#' Method amplitudes.
+#' @name amplitudes
+#' @rdname amplitudes-methods
+#' @exportMethod amplitudes
 setGeneric("amplitudes", function(object) {standardGeneric("amplitudes")})
 
 setMethod("scattnlay",signature(object="Scatterer"),function(object){
@@ -81,6 +86,8 @@ setMethod("scattnlay",signature(object="Scatterer"),function(object){
   return(Rpp)
 })
 
+#' @rdname amplitudes-methods
+#' @aliases amplitudes,ANY-method
 setMethod("amplitudes",signature(object="Scatterer"),function(object){
   S<-S4_AMPL(object)
   return(S)

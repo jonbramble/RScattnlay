@@ -2,6 +2,7 @@
 
 exportClasses(Layer)
 exportClasses(Scatterer)
+exportMethods(amplitudes)
 import(Rcpp)
 importFrom(Rcpp,sourceCpp)
 useDynLib(Rscattnlay)
