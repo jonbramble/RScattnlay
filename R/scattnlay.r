@@ -5,6 +5,7 @@ NULL
 #'
 #' @slot m the complex refractive index
 #' @slot r the radius in nanometers
+#' @export
 Layer <- setClass("Layer",
                   slots=c(
                     m="complex",
@@ -19,6 +20,7 @@ Layer <- setClass("Layer",
 #' @slot ti the starting angle in degrees
 #' @slot tf the end angle in degrees
 #' @slot layers a list of layers of type Layer
+#' @export
 Scatterer <- setClass("Scatterer",
                slots=c(
                  na="numeric",
