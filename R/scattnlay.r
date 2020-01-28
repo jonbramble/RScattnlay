@@ -1,4 +1,7 @@
-#' An S4 class to represent a layer around a nanoparticle
+#' @import Rcpp
+NULL
+
+#' @title An S4 class to represent a layer around a nanoparticle
 #'
 #' @slot m the complex refractive index
 #' @slot r the radius in nanometers
@@ -8,7 +11,7 @@ Layer <- setClass("Layer",
                     r="numeric"
                     ))
 
-#' An S4 class to represent a scattering simulation
+#' @title An S4 class to represent a scattering simulation
 #'
 #' @slot na the real refractive index of the ambient or surrounding media
 #' @slot lambda the wavelength of light in nanometers
