@@ -2,13 +2,9 @@
 % Please edit documentation in R/scattnlay.r
 \name{amplitudes}
 \alias{amplitudes}
-\alias{amplitudes,Scatterer-method}
-\alias{amplitudes,ANY-method}
 \title{Method amplitudes.}
 \usage{
 amplitudes(object)
-
-\S4method{amplitudes}{Scatterer}(object)
 }
 \description{
 Method amplitudes.
