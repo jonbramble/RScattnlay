@@ -20,7 +20,8 @@ License: \tab GPL (>= 2)\cr
 
 }
 \author{
-Jonathan Bramble
+Jonathan Bramble <jbramble82@hotmail.com>
+
 Maintainer: Wade Rogers <wade.rogers@spcytomics.com>
 }
 \references{
