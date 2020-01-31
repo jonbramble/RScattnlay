@@ -14,4 +14,5 @@ LinkingTo: Rcpp
 Imports: 
   Rcpp (>= 0.11.3),
   methods
+Remotes: cran::release/Rcpp (>= 0.11.3)
 RoxygenNote: 7.0.2
