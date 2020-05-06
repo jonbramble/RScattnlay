@@ -4,7 +4,23 @@
 \name{Scatterer-class}
 \alias{Scatterer-class}
 \alias{Scatterer}
+\alias{na<-}
+\alias{lambda<-}
+\alias{nt<-}
+\alias{ti<-}
+\alias{tf<-}
 \title{An S4 class to represent a scattering simulation}
+\usage{
+na(x) <- value
+
+lambda(x) <- value
+
+nt(x) <- value
+
+ti(x) <- value
+
+tf(x) <- value
+}
 \description{
 An S4 class to represent a scattering simulation
 }

@@ -4,7 +4,14 @@
 \name{Layer-class}
 \alias{Layer-class}
 \alias{Layer}
+\alias{r<-}
+\alias{m<-}
 \title{An S4 class to represent a layer around a nanoparticle}
+\usage{
+r(x) <- value
+
+m(x) <- value
+}
 \description{
 An S4 class to represent a layer around a nanoparticle
 }

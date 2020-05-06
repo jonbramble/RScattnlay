@@ -4,9 +4,14 @@ Title: R interface for the Scattnlay program
 Version: 1.1
 Date: 2018-03-16
 Author: Jonathan Bramble
-Maintainer: Jonathan Bramble <jbramble82@hotmail.com>
+Maintainer: Wade Rogers <wade.rogers@spcytomics.com>
 Description: Provides a convenient R interface for the scattnlay program by Pena and Pal. Mie scattering for multilayered spheres.  
 License: GPL (>= 2)
-Imports: Rcpp (>= 0.11.3)
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
 LinkingTo: Rcpp
-RoxygenNote: 6.0.1
+Imports: 
+  Rcpp (>= 0.11.3),
+  methods
+RoxygenNote: 7.0.2
