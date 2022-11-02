@@ -35,6 +35,8 @@ using namespace Rcpp;
 #define MAXLAYERS 1100
 #define MAXTHETA 800
 
+#define PI 3.141592654
+
 inline Rcomplex zconv(complex z) { Rcomplex nz;
                             nz.r = z.r;
                             nz.i = z.i;
